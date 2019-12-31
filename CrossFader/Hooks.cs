@@ -79,10 +79,27 @@ namespace Bero.CrossFader
 			}
 			return result;
 		}
-
+		
 		[HarmonyPatch(typeof(HSonyu), "Proc", null, null)]
 		[HarmonyPrefix]
 		public static bool HSounyuProcHook(HSonyu __instance, ref bool __result)
+		{
+			bool result;
+			if (Hooks.InTransition(__instance))
+			{
+				__result = false;
+				result = false;
+			}
+			else
+			{
+				result = true;
+			}
+			return result;
+		}
+
+		[HarmonyPatch(typeof(H3PDarkSonyu), "Proc", null, null)]
+		[HarmonyPrefix]
+		public static bool H3PDarkSonyuProcHook(H3PDarkSonyu __instance, ref bool __result)
 		{
 			bool result;
 			if (Hooks.InTransition(__instance))
