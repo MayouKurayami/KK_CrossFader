@@ -1,6 +1,6 @@
-﻿using System;
 using BepInEx;
 using Harmony;
+using System;
 
 namespace Bero.CrossFader
 {

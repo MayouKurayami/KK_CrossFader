@@ -34,8 +34,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrossFader.cs" />
-    <Compile Include="Hooks.cs" />
+    <Compile Include="Bero.CrossFader\CrossFader.cs" />
+    <Compile Include="Bero.CrossFader\Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
