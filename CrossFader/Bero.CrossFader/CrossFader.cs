@@ -4,9 +4,11 @@ using System;
 
 namespace Bero.CrossFader
 {
-	[BepInPlugin("bero.crossfader", "CrossFader", "0.1")]
+	[BepInPlugin("bero.crossfader", "CrossFader", Version)]
 	public class CrossFader : BaseUnityPlugin
 	{
+		public const string Version = "0.3";
+
 		public void Awake()
 		{
 			try
