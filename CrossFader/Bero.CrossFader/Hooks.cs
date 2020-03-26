@@ -131,16 +131,15 @@ namespace Bero.CrossFader
 			return true;
 		}
 
+		//Using Postfix instead of Prefix as a workaround for access violation error with modified mono.dll for debugging
 		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
-		[HarmonyPrefix]
-		public static bool H3PSonyuProcHook(H3PSonyu __instance, ref bool __result)
+		[HarmonyPostfix]
+		public static void H3PSonyuProcHook(H3PSonyu __instance, ref bool __result)
 		{
 			if (InTransition(__instance))
 			{
 				__result = false;
-				return false;
 			}
-			return true;
 		}
 
 		[HarmonyPatch(typeof(H3PDarkSonyu), "Proc", null, null)]
