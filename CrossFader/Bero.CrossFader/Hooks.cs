@@ -1,19 +1,29 @@
 using Harmony;
 using System;
-using UnityEngine;
 
 namespace Bero.CrossFader
 {
 	public static class Hooks
 	{
-		[HarmonyPatch(typeof(CrossFade), "FadeStart", new Type[]
+		//This should hook to a method that loads as late as possible in the loading phase
+		//Hooking method "MapSameObjectDisable" because: "Something that happens at the end of H scene loading, good enough place to hook" - DeathWeasel1337/Anon11
+		//https://github.com/DeathWeasel1337/KK_Plugins/blob/master/KK_EyeShaking/KK.EyeShaking.Hooks.cs#L20
+		[HarmonyPostfix]
+		[HarmonyPatch(typeof(HSceneProc), "MapSameObjectDisable")]
+		public static void HSceneProcLoadPost(HSceneProc __instance)
 		{
-			typeof(float)
-		}, null)]
+			CrossFader.flags = __instance.flags;
+		}
+
+		[HarmonyPatch(typeof(CrossFade), "FadeStart", new Type[]{ typeof(float) }, null)]
 		[HarmonyPrefix]
 		public static bool FadeStartHook()
 		{
-			return false;
+			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
+			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
+				return true;
+			else
+				return false;
 		}
 
 		[HarmonyPatch(typeof(ChaControl), "setPlay", new Type[]
@@ -24,7 +34,11 @@ namespace Bero.CrossFader
 		[HarmonyPrefix]
 		public static bool SetPlayHook(string _strAnmName, int _nLayer, ChaControl __instance, ref bool __result)
 		{
-			if (UnityEngine.Object.FindObjectOfType<HFlag>().mode == HFlag.EMode.peeping)
+			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
+			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
+				return true;
+
+			if (CrossFader.flags?.mode == HFlag.EMode.peeping)
 			{
 				__instance.animBody.CrossFadeInFixedTime(_strAnmName, 0f, _nLayer);
 				__result = true;
@@ -40,7 +54,7 @@ namespace Bero.CrossFader
 			return false;
 		}
 
-		private static bool InTransition(HActionBase ab)
+		internal static bool InTransition(HActionBase ab)
 		{
 			ChaControl value = Traverse.Create(ab).Field("female").GetValue<ChaControl>();
 			HFlag value2 = Traverse.Create(ab).Field("flags").GetValue<HFlag>();
@@ -129,17 +143,6 @@ namespace Bero.CrossFader
 				return false;
 			}
 			return true;
-		}
-
-		//Using Postfix instead of Prefix as a workaround for access violation error with modified mono.dll for debugging
-		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
-		[HarmonyPostfix]
-		public static void H3PSonyuProcHook(H3PSonyu __instance, ref bool __result)
-		{
-			if (InTransition(__instance))
-			{
-				__result = false;
-			}
 		}
 
 		[HarmonyPatch(typeof(H3PDarkSonyu), "Proc", null, null)]

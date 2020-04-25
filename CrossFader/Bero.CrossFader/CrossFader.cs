@@ -1,6 +1,8 @@
 using BepInEx;
 using Harmony;
 using System;
+using UnityEngine;
+
 
 namespace Bero.CrossFader
 {
@@ -8,6 +10,9 @@ namespace Bero.CrossFader
 	public class CrossFader : BaseUnityPlugin
 	{
 		public const string Version = "0.3";
+		internal static HFlag flags;
+
+		internal static bool dataPathVR;
 
 		public void Awake()
 		{
@@ -15,6 +20,9 @@ namespace Bero.CrossFader
 			{
 				HarmonyInstance harmonyInstance = HarmonyInstance.Create("bero.crossfader");
 				harmonyInstance.PatchAll(typeof(Hooks));
+
+				if (dataPathVR = Application.dataPath.EndsWith("KoikatuVR_Data"))
+					harmonyInstance.PatchAll(typeof(VR_Hooks));
 			}
 			catch (Exception ex)
 			{
