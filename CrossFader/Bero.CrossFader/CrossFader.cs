@@ -9,7 +9,7 @@ namespace Bero.CrossFader
 	[BepInPlugin("bero.crossfader", "CrossFader", Version)]
 	public class CrossFader : BaseUnityPlugin
 	{
-		public const string Version = "0.3";
+		public const string Version = "0.5";
 		internal static HFlag flags;
 		internal static ChaControl female;
 
