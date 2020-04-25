@@ -1,5 +1,7 @@
 ﻿using Harmony;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bero.CrossFader
 {
@@ -13,14 +15,15 @@ namespace Bero.CrossFader
 		public static void HSceneProcLoadPost(VRHScene __instance)
 		{
 			CrossFader.flags = __instance.flags;
+			CrossFader.female = Traverse.Create(__instance).Field("lstFemale").GetValue<List<ChaControl>>().FirstOrDefault<ChaControl>();
 		}
 
 		//This should only be patched in VR because of a conflict with the modified mono.dll for debugging the non-VR version of the game
 		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
 		[HarmonyPrefix]
-		public static bool H3PSonyuProcHook(H3PSonyu __instance, ref bool __result)
+		public static bool H3PSonyuProcHook(ref bool __result)
 		{
-			if (Hooks.InTransition(__instance))
+			if (Hooks.InTransition())
 			{
 				__result = false;
 				return false;

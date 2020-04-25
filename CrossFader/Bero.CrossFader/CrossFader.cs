@@ -11,6 +11,7 @@ namespace Bero.CrossFader
 	{
 		public const string Version = "0.3";
 		internal static HFlag flags;
+		internal static ChaControl female;
 
 		internal static bool dataPathVR;
 
