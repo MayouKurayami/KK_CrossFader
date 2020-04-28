@@ -41,6 +41,13 @@ namespace Bero.CrossFader
 			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
 				return true;
 
+			if ((__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch") && _strAnmName == "M_Idle")
+				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch") && _strAnmName == "A_Idle")
+				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch") && _strAnmName == "S_Idle"))
+			{
+				return true;
+			}
+
 			if (CrossFader.flags?.mode == HFlag.EMode.peeping)
 			{
 				__instance.animBody.CrossFadeInFixedTime(_strAnmName, 0f, _nLayer);
