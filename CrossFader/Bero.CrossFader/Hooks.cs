@@ -22,10 +22,12 @@ namespace Bero.CrossFader
 		[HarmonyPrefix]
 		public static bool FadeStartHook()
 		{
+#if DEBUG_FIX
 			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
 			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
 				return true;
 			else
+#endif
 				return false;
 		}
 
@@ -37,10 +39,11 @@ namespace Bero.CrossFader
 		[HarmonyPrefix]
 		public static bool SetPlayHook(string _strAnmName, int _nLayer, ChaControl __instance, ref bool __result)
 		{
+#if DEBUG_FIX
 			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
 			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
 				return true;
-
+#endif
 			if ((__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch") && _strAnmName == "M_Idle")
 				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch") && _strAnmName == "A_Idle")
 				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch") && _strAnmName == "S_Idle"))
@@ -176,5 +179,20 @@ namespace Bero.CrossFader
 			}
 			return true;
 		}
+
+#if !DEBUG_FIX
+		//If DEBUG_FIX is true, this hook should only be patched in VR, as defined in VR_Hooks
+		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
+		[HarmonyPrefix]
+		public static bool H3PSonyuProcHook(ref bool __result)
+		{
+			if (Hooks.InTransition())
+			{
+				__result = false;
+				return false;
+			}
+			return true;
+		}
+#endif
 	}
 }

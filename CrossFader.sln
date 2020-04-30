@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossFader", "CrossFader\CrossFader.csproj", "{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}"
 EndProject
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Debug|Any CPU.ActiveCfg = Debug(debug-fix)|Any CPU
+		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Debug|Any CPU.Build.0 = Debug(debug-fix)|Any CPU
+		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Release|Any CPU.ActiveCfg = Release(no-debug-fix)|Any CPU
+		{651D05F5-2B27-4737-BB9A-3D2CB07E5DEF}.Release|Any CPU.Build.0 = Release(no-debug-fix)|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B94EDA46-7D28-42DF-9641-E1CC9869189A}
 	EndGlobalSection
 EndGlobal
