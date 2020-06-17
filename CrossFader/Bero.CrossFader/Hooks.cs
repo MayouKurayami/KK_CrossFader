@@ -44,11 +44,10 @@ namespace Bero.CrossFader
 			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
 				return true;
 #endif
-			if ((__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch") && _strAnmName == "M_Idle")
-				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch") && _strAnmName == "A_Idle")
-				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch") && _strAnmName == "S_Idle"))
+			if (__instance.animBody == null)
 			{
-				return true;
+				__result = false;
+				return false;
 			}
 
 			if (CrossFader.flags?.mode == HFlag.EMode.peeping)
@@ -57,11 +56,14 @@ namespace Bero.CrossFader
 				__result = true;
 				return false;
 			}
-			if (__instance.animBody == null)
+
+			if ((__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch") && _strAnmName == "M_Idle")
+				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch") && _strAnmName == "A_Idle")
+				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch") && _strAnmName == "S_Idle"))
 			{
-				__result = false;
-				return false;
-			}
+				return true;
+			}		
+			
 			__instance.animBody.CrossFadeInFixedTime(_strAnmName, UnityEngine.Random.Range(0.5f, 1f), _nLayer);
 			__result = true;
 			return false;
