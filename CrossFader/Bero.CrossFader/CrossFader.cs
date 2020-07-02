@@ -7,9 +7,10 @@ using System.ComponentModel;
 
 namespace Bero.CrossFader
 {
-	[BepInPlugin("bero.crossfader", "CrossFader", Version)]
+	[BepInPlugin("bero.crossfader", PluginName, Version)]
 	public class CrossFader : BaseUnityPlugin
 	{
+		public const string PluginName = "CrossFader";
 		public const string Version = "0.7";
 		internal static HFlag flags;
 		internal static ChaControl female;
