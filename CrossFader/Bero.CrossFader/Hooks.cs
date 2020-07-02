@@ -2,6 +2,7 @@ using Harmony;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Bero.CrossFader.CrossFader;
 
 namespace Bero.CrossFader
 {
@@ -14,21 +15,15 @@ namespace Bero.CrossFader
 		[HarmonyPatch(typeof(HSceneProc), "MapSameObjectDisable")]
 		public static void HSceneProcLoadPost(HSceneProc __instance)
 		{
-			CrossFader.flags = __instance.flags;
-			CrossFader.female = Traverse.Create(__instance).Field("lstFemale").GetValue<List<ChaControl>>().FirstOrDefault<ChaControl>();
+			flags = __instance.flags;
+			female = Traverse.Create(__instance).Field("lstFemale").GetValue<List<ChaControl>>().FirstOrDefault<ChaControl>();
 		}
 
 		[HarmonyPatch(typeof(CrossFade), "FadeStart", new Type[]{ typeof(float) }, null)]
 		[HarmonyPrefix]
 		public static bool FadeStartHook()
 		{
-#if DEBUG_FIX
-			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
-			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
-				return true;
-			else
-#endif
-				return false;
+			return !IsEnabled();
 		}
 
 		[HarmonyPatch(typeof(ChaControl), "setPlay", new Type[]
@@ -39,18 +34,16 @@ namespace Bero.CrossFader
 		[HarmonyPrefix]
 		public static bool SetPlayHook(string _strAnmName, int _nLayer, ChaControl __instance, ref bool __result)
 		{
-#if DEBUG_FIX
-			//Skip hook if in sonyu3P mode and not in VR, since it is not patched as a workaround to prevent conflict with the modified mono.dll for debudding
-			if (CrossFader.flags?.mode == HFlag.EMode.sonyu3P && !CrossFader.dataPathVR)
+			if (!IsEnabled())
 				return true;
-#endif
+
 			if (__instance.animBody == null)
 			{
 				__result = false;
 				return false;
 			}
 
-			if (CrossFader.flags?.mode == HFlag.EMode.peeping)
+			if (flags?.mode == HFlag.EMode.peeping)
 			{
 				__instance.animBody.CrossFadeInFixedTime(_strAnmName, 0f, _nLayer);
 				__result = true;
@@ -71,7 +64,7 @@ namespace Bero.CrossFader
 
 		internal static bool InTransition()
 		{
-			return (!CrossFader.female?.animBody.GetCurrentAnimatorStateInfo(0).IsName(CrossFader.flags?.nowAnimStateName)) ?? false;
+			return (!female?.animBody.GetCurrentAnimatorStateInfo(0).IsName(flags?.nowAnimStateName)) ?? false;
 		}
 
 		[HarmonyPatch(typeof(HAibu), "Proc", null, null)]
@@ -182,19 +175,16 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-#if !DEBUG_FIX
-		//If DEBUG_FIX is true, this hook should only be patched in VR, as defined in VR_Hooks
-		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
-		[HarmonyPrefix]
-		public static bool H3PSonyuProcHook(ref bool __result)
+		internal static bool IsEnabled()
 		{
-			if (Hooks.InTransition())
-			{
-				__result = false;
+			if (Enabled.Value == Mode.Off)
 				return false;
-			}
-			return true;
+			else if (dataPathVR)
+				return true;
+			else if (Enabled.Value == Mode.On && (flags?.mode == HFlag.EMode.sonyu3P ? !DebugFix.Value : true))
+				return true;
+			else
+				return false;
 		}
-#endif
 	}
 }

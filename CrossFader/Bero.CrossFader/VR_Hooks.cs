@@ -17,20 +17,5 @@ namespace Bero.CrossFader
 			CrossFader.flags = __instance.flags;
 			CrossFader.female = Traverse.Create(__instance).Field("lstFemale").GetValue<List<ChaControl>>().FirstOrDefault<ChaControl>();
 		}
-
-#if DEBUG_FIX
-		//This should only be patched in VR because of a conflict with the modified mono.dll for debugging the non-VR version of the game
-		[HarmonyPatch(typeof(H3PSonyu), "Proc", null, null)]
-		[HarmonyPrefix]
-		public static bool H3PSonyuProcHook(ref bool __result)
-		{
-			if (Hooks.InTransition())
-			{
-				__result = false;
-				return false;
-			}
-			return true;
-		}
-#endif
 	}
 }
