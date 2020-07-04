@@ -1,4 +1,4 @@
-using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +67,7 @@ namespace Bero.CrossFader
 			return (!female?.animBody.GetCurrentAnimatorStateInfo(0).IsName(flags?.nowAnimStateName)) ?? false;
 		}
 
-		[HarmonyPatch(typeof(HAibu), "Proc", null, null)]
+		[HarmonyPatch(typeof(HAibu), "Proc")]
 		[HarmonyPrefix]
 		public static bool HAibuProcHook(ref bool __result)
 		{
@@ -79,7 +79,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(HHoushi), "Proc", null, null)]
+		[HarmonyPatch(typeof(HHoushi), "Proc")]
 		[HarmonyPrefix]
 		public static bool HHoushiProcHook(ref bool __result)
 		{
@@ -91,7 +91,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(HSonyu), "Proc", null, null)]
+		[HarmonyPatch(typeof(HSonyu), "Proc")]
 		[HarmonyPrefix]
 		public static bool HSounyuProcHook(ref bool __result)
 		{
@@ -103,7 +103,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(HMasturbation), "Proc", null, null)]
+		[HarmonyPatch(typeof(HMasturbation), "Proc")]
 		[HarmonyPrefix]
 		public static bool HMasturbationHook(ref bool __result)
 		{
@@ -115,7 +115,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(HPeeping), "Proc", null, null)]
+		[HarmonyPatch(typeof(HPeeping), "Proc")]
 		[HarmonyPrefix]
 		public static bool HPeeping(ref bool __result)
 		{
@@ -127,7 +127,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(HLesbian), "Proc", null, null)]
+		[HarmonyPatch(typeof(HLesbian), "Proc")]
 		[HarmonyPrefix]
 		public static bool HLesbianProcHook(ref bool __result)
 		{
@@ -139,7 +139,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(H3PHoushi), "Proc", null, null)]
+		[HarmonyPatch(typeof(H3PHoushi), "Proc")]
 		[HarmonyPrefix]
 		public static bool H3PHoushiProcHook(ref bool __result)
 		{
@@ -151,7 +151,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(H3PDarkSonyu), "Proc", null, null)]
+		[HarmonyPatch(typeof(H3PDarkSonyu), "Proc")]
 		[HarmonyPrefix]
 		public static bool H3PDarkSonyuProcHook(ref bool __result)
 		{
@@ -163,7 +163,7 @@ namespace Bero.CrossFader
 			return true;
 		}
 
-		[HarmonyPatch(typeof(H3PDarkHoushi), "Proc", null, null)]
+		[HarmonyPatch(typeof(H3PDarkHoushi), "Proc")]
 		[HarmonyPrefix]
 		public static bool H3PDarkHoushiProcHook(ref bool __result)
 		{

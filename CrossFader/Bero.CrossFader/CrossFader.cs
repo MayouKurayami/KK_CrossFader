@@ -1,5 +1,6 @@
 using BepInEx;
-using Harmony;
+using BepInEx.Harmony;
+using BepInEx.Configuration;
 using System;
 using UnityEngine;
 using System.ComponentModel;
@@ -18,36 +19,33 @@ namespace Bero.CrossFader
 		internal static bool dataPathVR;
 
 
-		[DisplayName("Enabled")]
-		[Description("Enable smooth fade between animations. \nChoose VR if you only want it enabled in VR")]
-		public static ConfigWrapper<Mode> Enabled { get; private set; }
+		public static ConfigEntry<Mode> Enabled { get; private set; }
 
-		[Category("Advanced Settings")]
-		[DisplayName("Debugger Crash Workaround")]
-		[Description("Disable crossfade in non-VR 3P intercourse to prevent conflict with the mono.dll used for dnSpy debugging." +
-			"\nKeep this enabled unless you're sure that you do not have the modified dll in place." +
-			"\nRequires restarting the game to take effect.")]
-		public static ConfigWrapper<bool> DebugFix { get; private set; }
+		public static ConfigEntry<bool> DebugFix { get; private set; }
 
 
 		public void Awake()
 		{
-			Enabled = new ConfigWrapper<Mode>(nameof(Enabled), this, Mode.On);
-			DebugFix = new ConfigWrapper<bool>(nameof(DebugFix), this, true);
+			Enabled = Config.Bind("", "Enabled", Mode.On, "Enable smooth fade between animations. \nChoose VR if you only want it enabled in VR");
+
+			DebugFix = Config.Bind("Advanced", "Debugger Crash Workaround", true, new ConfigDescription(
+					"Disable crossfade in non-VR 3P intercourse to prevent conflict with the mono.dll used for dnSpy debugging." +
+					"\nKeep this enabled unless you're sure that you do not have the modified dll in place." +
+					"\nRequires restarting the game to take effect.", 
+					null, new ConfigurationManagerAttributes { IsAdvanced = true, Order = 0}));
 
 			try
 			{
-				HarmonyInstance harmonyInstance = HarmonyInstance.Create("bero.crossfader");
-				harmonyInstance.PatchAll(typeof(Hooks));
+				HarmonyWrapper.PatchAll(typeof(Hooks));
 
 				if (dataPathVR = Application.dataPath.EndsWith("KoikatuVR_Data"))
 				{
-					harmonyInstance.PatchAll(typeof(VR_Hooks));
-					harmonyInstance.PatchAll(typeof(H3PSonyu_Hook));
+					HarmonyWrapper.PatchAll(typeof(VR_Hooks));
+					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
 				}
 				else if (!DebugFix.Value)
 				{
-					harmonyInstance.PatchAll(typeof(H3PSonyu_Hook));
+					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
 				}
 					
 			}
