@@ -181,7 +181,7 @@ namespace Bero.CrossFader
 				return false;
 			else if (dataPathVR)
 				return true;
-			else if (Enabled.Value == Mode.On && (flags?.mode == HFlag.EMode.sonyu3P ? !DebugFix.Value : true))
+			else if (Enabled.Value == Mode.On && (flags?.mode == HFlag.EMode.sonyu3P ? Sonyu3PPatched : true))
 				return true;
 			else
 				return false;

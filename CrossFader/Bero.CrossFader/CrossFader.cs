@@ -17,6 +17,7 @@ namespace Bero.CrossFader
 		internal static ChaControl female;
 
 		internal static bool dataPathVR;
+		internal static bool Sonyu3PPatched;
 
 
 		public static ConfigEntry<Mode> Enabled { get; private set; }
@@ -42,10 +43,12 @@ namespace Bero.CrossFader
 				{
 					HarmonyWrapper.PatchAll(typeof(VR_Hooks));
 					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
+					Sonyu3PPatched = true;
 				}
 				else if (!DebugFix.Value)
 				{
 					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
+					Sonyu3PPatched = true;
 				}
 					
 			}
