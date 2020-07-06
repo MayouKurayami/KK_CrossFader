@@ -41,13 +41,13 @@ namespace Bero.CrossFader
 
 				if (dataPathVR = Application.dataPath.EndsWith("KoikatuVR_Data"))
 				{
-					HarmonyWrapper.PatchAll(typeof(VR_Hooks));
-					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
+					HarmonyWrapper.PatchAll(typeof(Hooks_VR));
+					HarmonyWrapper.PatchAll(typeof(Hooks_H3PSonyu));
 					Sonyu3PPatched = true;
 				}
 				else if (!DebugFix.Value)
 				{
-					HarmonyWrapper.PatchAll(typeof(H3PSonyu_Hook));
+					HarmonyWrapper.PatchAll(typeof(Hooks_H3PSonyu));
 					Sonyu3PPatched = true;
 				}
 					

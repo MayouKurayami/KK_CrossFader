@@ -4,7 +4,7 @@ using HarmonyLib;
 
 namespace Bero.CrossFader
 {
-	public static class H3PSonyu_Hook
+	public static class Hooks_H3PSonyu
 	{
 		//This should only be patched in VR or if DebugFix is disabled because of a conflict with the modified mono.dll for debugging the non-VR version of the game
 		[HarmonyPatch(typeof(H3PSonyu), "Proc")]

@@ -36,8 +36,8 @@
   <ItemGroup>
     <Compile Include="Bero.CrossFader\ConfigurationManagerAttributes.cs" />
     <Compile Include="Bero.CrossFader\CrossFader.cs" />
-    <Compile Include="Bero.CrossFader\H3PSonyu_Hook.cs" />
-    <Compile Include="Bero.CrossFader\VR_Hooks.cs" />
+    <Compile Include="Bero.CrossFader\Hooks_H3PSonyu.cs" />
+    <Compile Include="Bero.CrossFader\Hooks_VR.cs" />
     <Compile Include="Bero.CrossFader\Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

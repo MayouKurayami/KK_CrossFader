@@ -8,6 +8,18 @@ namespace Bero.CrossFader
 {
 	public static class Hooks
 	{
+		internal static bool IsEnabled()
+		{
+			if (Enabled.Value == Mode.Off || !flags)
+				return false;
+			else if (dataPathVR)
+				return true;
+			else if (Enabled.Value == Mode.On && (flags?.mode == HFlag.EMode.sonyu3P ? Sonyu3PPatched : true))
+				return true;
+			else
+				return false;
+		}
+
 		//This should hook to a method that loads as late as possible in the loading phase
 		//Hooking method "MapSameObjectDisable" because: "Something that happens at the end of H scene loading, good enough place to hook" - DeathWeasel1337/Anon11
 		//https://github.com/DeathWeasel1337/KK_Plugins/blob/master/KK_EyeShaking/KK.EyeShaking.Hooks.cs#L20
@@ -173,18 +185,6 @@ namespace Bero.CrossFader
 				return false;
 			}
 			return true;
-		}
-
-		internal static bool IsEnabled()
-		{
-			if (Enabled.Value == Mode.Off || !flags)
-				return false;
-			else if (dataPathVR)
-				return true;
-			else if (Enabled.Value == Mode.On && (flags?.mode == HFlag.EMode.sonyu3P ? Sonyu3PPatched : true))
-				return true;
-			else
-				return false;
 		}
 	}
 }
