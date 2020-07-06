@@ -1,5 +1,5 @@
 **DISCLAIMER**: This project is an effort to decompile and fix an existing plugin that was not written by me.  
-The original plugin can be found on http://uppervolta-3d.net/illu/upload.php
+The plugin was originally published on 2ch by an anonymous user.
 
 # CrossFader
 > Replaces fades between animations in Koikatsu with animated transitions
@@ -7,7 +7,6 @@ The original plugin can be found on http://uppervolta-3d.net/illu/upload.php
 
 ## Prerequisites  
 - Afterschool DLC  
-- Darkness DLC
 - BepInEx 5  
 
 
