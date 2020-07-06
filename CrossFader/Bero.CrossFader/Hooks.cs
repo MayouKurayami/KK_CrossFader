@@ -177,7 +177,7 @@ namespace Bero.CrossFader
 
 		internal static bool IsEnabled()
 		{
-			if (Enabled.Value == Mode.Off)
+			if (Enabled.Value == Mode.Off || !flags)
 				return false;
 			else if (dataPathVR)
 				return true;
