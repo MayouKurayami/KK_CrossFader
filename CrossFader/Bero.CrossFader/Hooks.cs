@@ -186,5 +186,20 @@ namespace Bero.CrossFader
 			}
 			return true;
 		}
+
+		/// <summary>
+		/// Disable menu actions during transition to prevent menus being disabled incorrectly
+		/// </summary>
+		[HarmonyPatch(typeof(HSprite), nameof(HSprite.IsSpriteAciotn))]
+		[HarmonyPrefix]
+		public static bool IsSpriteActionOverride(ref bool __result)
+		{
+			if (InTransition())
+			{
+				__result = false;
+				return false;
+			}
+			return true;
+		}
 	}
 }
