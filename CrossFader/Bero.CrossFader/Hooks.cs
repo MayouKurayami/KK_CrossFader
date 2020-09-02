@@ -76,7 +76,10 @@ namespace Bero.CrossFader
 
 		internal static bool InTransition()
 		{
-			return (!female?.animBody.GetCurrentAnimatorStateInfo(0).IsName(flags?.nowAnimStateName)) ?? false;
+			if (!flags)
+				return false;
+			
+			return !female?.animBody?.GetCurrentAnimatorStateInfo(0).IsName(flags.nowAnimStateName) ?? false;
 		}
 
 		[HarmonyPatch(typeof(HAibu), "Proc")]
