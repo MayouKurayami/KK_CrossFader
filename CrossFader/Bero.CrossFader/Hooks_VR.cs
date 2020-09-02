@@ -12,7 +12,7 @@ namespace Bero.CrossFader
 		//https://github.com/DeathWeasel1337/KK_Plugins/blob/master/KK_EyeShaking/KK.EyeShaking.Hooks.cs#L20
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(VRHScene), "MapSameObjectDisable")]
-		public static void HSceneProcLoadPost(VRHScene __instance)
+		public static void VRHSceneLoadPost(VRHScene __instance)
 		{
 			CrossFader.flags = __instance.flags;
 			CrossFader.female = Traverse.Create(__instance).Field("lstFemale").GetValue<List<ChaControl>>().FirstOrDefault<ChaControl>();
