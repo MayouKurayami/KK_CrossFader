@@ -19,11 +19,15 @@ Download [**CrossFader.zip** from the latest release](https://github.com/MayouKu
 
 ![](https://github.com/MayouKurayami/KK_CrossFader/blob/master/images/Crossfader_settings.png)  
 
-- **Enabled** - Choose if and when to enable the plugin. For instance, choose *VR Only* if you only want it enabled in official VR. **(Default: On)**  
+- **Enabled** - Choose when to enable crossfade.
+  - *On* - Enable always **(Default)**
+  - *VR Only* - Enable in official VR Only
+  - *Off* - Disable always
 
-- **Debugger Crash Workaround** - When not in official VR, disables crossfade in 3P intercourse to prevent potential game crash. See [*Notes & Limitations*](https://github.com/MayouKurayami/KK_CrossFader#notes--limitations) for more details. **(Default: True)**
 
+- **Debugger Crash Workaround** - When not in official VR, disables crossfade in 3P intercourse to prevent potential game crash. See [*Notes & Limitations*](https://github.com/MayouKurayami/KK_CrossFader#notes--limitations) for more details.  **(Default: Enabled)**
 
+<br>
 
 ## Notes & Limitations
 - Since the vanilla game has no fades at all between animations in VR, this plugin is extremely useful to prevent sudden and jerky transitions when in VR.  

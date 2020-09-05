@@ -27,7 +27,7 @@ namespace Bero.CrossFader
 
 		public void Awake()
 		{
-			Enabled = Config.Bind("", "Enabled", Mode.On, "Enable smooth fade between animations. \nChoose VR if you only want it enabled in VR");
+			Enabled = Config.Bind("", "Enable Crossfade", Mode.On, "Enable smooth fade between animations. \nChoose \"VR only\" if you only want it enabled in official VR");
 
 			DebugFix = Config.Bind("Advanced", "Debugger Crash Workaround", true, new ConfigDescription(
 					"Disable crossfade in non-VR 3P intercourse to prevent conflict with the mono.dll used for dnSpy debugging." +
