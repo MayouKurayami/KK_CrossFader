@@ -38,33 +38,31 @@ namespace Bero.CrossFader
 			return !IsEnabled();
 		}
 
-		[HarmonyPatch(typeof(ChaControl), "setPlay", new Type[]
-		{
-			typeof(string),
-			typeof(int)
-		}, null)]
+		[HarmonyPatch(typeof(ChaControl), "setPlay", new Type[] { typeof(string), typeof(int)}, null)]
 		[HarmonyPrefix]
 		public static bool SetPlayHook(string _strAnmName, int _nLayer, ChaControl __instance, ref bool __result)
 		{
-			if (!IsEnabled())
+			if (!IsEnabled() || __instance.animBody == null || !flags)
 				return true;
 
-			if (__instance.animBody == null)
-			{
-				__result = false;
-				return false;
-			}
-
-			if (flags?.mode == HFlag.EMode.peeping)
+			if (flags.mode == HFlag.EMode.peeping)
 			{
 				__instance.animBody.CrossFadeInFixedTime(_strAnmName, 0f, _nLayer);
 				__result = true;
 				return false;
 			}
 
-			if ((__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch") && _strAnmName == "M_Idle")
-				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch") && _strAnmName == "A_Idle")
-				|| (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch") && _strAnmName == "S_Idle"))
+			if ((flags.mode == HFlag.EMode.houshi || flags.mode == HFlag.EMode.houshi3P || flags.mode == HFlag.EMode.houshi3PMMF) 
+				&& (_strAnmName == "Oral_Idle_IN" || _strAnmName == "M_OUT_Start"))
+			{
+				__instance.animBody.CrossFadeInFixedTime(_strAnmName, 0.2f, _nLayer);
+				__result = true;
+				return false;
+			}
+
+			if (_strAnmName == "M_Idle" && (__instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("M_Touch"))
+				|| (_strAnmName == "A_Idle" && __instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("A_Touch"))
+				|| (_strAnmName == "S_Idle" && __instance.animBody.GetCurrentAnimatorStateInfo(0).IsName("S_Touch")))
 			{
 				return true;
 			}		
